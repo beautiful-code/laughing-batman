@@ -3,42 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/chat_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="67dp"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+	<TextView
+	    android:id="@+id/chat_message"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp"
+	    android:layout_below="@+id/webview"
+	    android:layout_alignParentLeft="true"
+	    android:text="Medium Text"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/time_of_chat_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/chat_message"
-        android:layout_marginRight="29dp"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+	<TextView
+	    android:id="@+id/time_of_chat_message"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/chat_message"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginBottom="47dp"
+	    android:text="Small Text"
+	    android:textAppearance="?android:attr/textAppearanceSmall" />
 
 	<WebView
 	    android:id="@+id/webview"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"                                   
-	    android:layout_alignParentTop="true"
-	    android:layout_centerHorizontal="true"
-	  />
-
-	<TextView
-	    android:id="@+id/message_url"
-	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/webview"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginTop="18dp"
-	    android:text="TextView" />
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true" />
 
 </RelativeLayout>

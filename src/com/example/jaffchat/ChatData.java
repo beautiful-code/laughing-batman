@@ -16,7 +16,7 @@ public class ChatData {
 
 	public static final String TAG = "ChatData";
 	public static final String DB_NAME = "alldata.db";
-	public static final int DB_VERSION = 3;
+	public static final int DB_VERSION = 1;
 	public static final String TABLE_NAME = "chatdata";
 	public static final String EMAIL_ID = "email_id";
 	public static final String FIRST_NAME = "first_name";

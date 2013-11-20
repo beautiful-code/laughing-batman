@@ -25,15 +25,14 @@ public final class R {
         public static final int thinking=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080008;
+        public static final int action_settings=0x7f080007;
         public static final int buttonSend=0x7f080002;
         public static final int chat_message=0x7f080004;
         public static final int emailIdInbox=0x7f080003;
         public static final int list_messages=0x7f080000;
         public static final int message=0x7f080001;
-        public static final int message_url=0x7f080007;
-        public static final int time_of_chat_message=0x7f080005;
-        public static final int webview=0x7f080006;
+        public static final int time_of_chat_message=0x7f080006;
+        public static final int webview=0x7f080005;
     }
     public static final class layout {
         public static final int activity_chat=0x7f030000;

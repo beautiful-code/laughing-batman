@@ -16,11 +16,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+
 
 public class ChatActivity extends Activity {
 
@@ -30,7 +29,7 @@ public class ChatActivity extends Activity {
 	static Cursor messagesCursor;
 	static List<Map> list;
 	Map dataOfChat;
-	SimpleAdapter adapter;
+	CustomAdapter adapter;
 	String[] from = { "message", "message_url","time" };
 	int[] to = { R.id.chat_message, R.id.time_of_chat_message,R.id.webview };
 	ListView listView;
@@ -155,13 +154,9 @@ public class ChatActivity extends Activity {
 
 			if (result != null) {
 				Log.d(TAG, list.toString());
-				adapter = new SimpleAdapter(ChatActivity.this,
-						(List<? extends Map<String, ?>>) list,
-						R.layout.row_message, from, to);
-				Log.d(TAG, "Before setting View Binder");
-				adapter.setViewBinder(VIEW_BINDER);
-				Log.d(TAG, "After setting View Binder");
+				adapter = new CustomAdapter(ChatActivity.this, R.layout.row_message, list);
 				listView.setAdapter(adapter);
+				Log.d("Custom adapter",new Integer(adapter.getCount()).toString());
 				listView.setSelection(adapter.getCount() - 1);
 
 				//WebView webview = (WebView) findViewById(1);
@@ -174,29 +169,6 @@ public class ChatActivity extends Activity {
 
 	}
 
-	static final SimpleAdapter.ViewBinder VIEW_BINDER = new SimpleAdapter.ViewBinder() {
-
-		@Override
-		public boolean setViewValue(View view, Object data,
-				String textRepresentation) {
-
-			if (view.getId() == R.id.webview) {
-				// we are dealing with the ProgressBar so set the progress and
-				// return true(to let the adapter know you binded the data)
-				// set the progress(the data parameter, I don't know what you
-				// actually store in the progress column(integer, string etc)).
-
-				// WebView webview = new WebView(view.getA);
-				Log.d(TAG, "Setting id ");
-				 ((WebView)view).loadUrl("http://www.google.com");
-
-				return false;
-			}
-
-			return false; // we are dealing with the TextView so return false
-							// and let the adapter bind the data
-		}
-
-	};
-
+	
+	
 }
