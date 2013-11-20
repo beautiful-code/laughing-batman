@@ -3,28 +3,39 @@
     package="com.example.jaffchat"
     android:versionCode="1"
     android:versionName="1.0" >
-    
-        <uses-permission android:name="android.permission.INTERNET" />
-    
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
     <application
-        android:name="com.example.jaffchat.MyApplication"      
+        android:name="com.example.jaffchat.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.jaffchat.ChatActivity"
+            android:name="com.example.jaffchat.JaffaMainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.jaffchat.RegistrationActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.jaffchat.LoginActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.jaffchat.ChatActivity"
+            android:label="@string/app_name" >
         </activity>
 
         <receiver android:name=".MessageSender" >
