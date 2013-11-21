@@ -26,8 +26,8 @@ public final class R {
     }
     public static final class id {
         public static final int action_forgot_password=0x7f080015;
-        public static final int action_inbox=0x7f080014;
         public static final int action_logout=0x7f080013;
+        public static final int action_rooms=0x7f080014;
         public static final int action_settings=0x7f080012;
         public static final int buttonSend=0x7f080002;
         public static final int chat_message=0x7f08000e;
@@ -42,7 +42,7 @@ public final class R {
         public static final int message=0x7f080001;
         public static final int new_user=0x7f08000b;
         public static final int password=0x7f080008;
-        public static final int room_name=0x7f080011;
+        public static final int room_id=0x7f080011;
         public static final int sign_in_button=0x7f08000a;
         public static final int sign_up_button=0x7f08000c;
         public static final int time_of_chat_message=0x7f080010;

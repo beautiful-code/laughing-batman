@@ -48,7 +48,8 @@ public class JaffaMainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-
+		Intent intent;
+		
 		switch (item.getItemId()) {
 		case R.id.action_logout:
 			Editor editor = prefs.edit();
@@ -56,13 +57,20 @@ public class JaffaMainActivity extends Activity {
 			editor.commit();
 			UserData.authentication_token = null;
 			
-			Intent intent = new Intent(JaffaMainActivity.this,
+			 intent = new Intent(JaffaMainActivity.this,
 					LoginActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
 					| Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(intent);
 			break;
-
+			
+		case R.id.action_rooms :
+			 intent = new Intent(JaffaMainActivity.this,
+					ChatRoomsIndexActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+					| Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			break;
 		}
 		return true;
 	}
