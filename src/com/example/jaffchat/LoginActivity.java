@@ -117,19 +117,10 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected String doInBackground(String... params) {
-//			while(apid==null)
-//				{apid = PushManager.shared().getAPID();
-//				gcm_regid = PushManager.shared().getGcmId();
-//			Log.d(TAG, "APID is "+apid);
-//			Log.d(TAG, "GCM id is"+gcm_regid);
-//				}
+
 		List<NameValuePair> values=new ArrayList<NameValuePair>();
 		values.add(new BasicNameValuePair("user[email]", params[0]));
 		values.add(new BasicNameValuePair("user[password]",params[1]));
-		//values.add(new BasicNameValuePair("action",action));
-		//values.add(new BasicNameValuePair("uairship_id", apid));
-		//values.add(new BasicNameValuePair("gcm_reg_id", gcm_regid));
-	
 			
 	HttpClient httpClient =new DefaultHttpClient();
 	HttpPost httpPost = new HttpPost("http://10.0.2.2:3000/users/sign_in.json");
@@ -143,48 +134,27 @@ public class LoginActivity extends Activity {
 			int responseCode = httpResponse.getStatusLine().getStatusCode();
 			Log.d(TAG, httpResponse.toString());
 			Log.d(TAG, new Integer(responseCode).toString());
-			
+			HttpEntity entity = httpResponse.getEntity();
+		    is = entity.getContent();
+		    JSONObject jObj;
+		    
 			switch (responseCode) {
 			
-			case 200: HttpEntity entity = httpResponse.getEntity();
-				       is = entity.getContent();
-				      JSONObject jObj = new JSONObject(convertStreamToString(is));
-				      jObj.get("auth_token").toString();
-				       String authentication_token =  jObj.get("auth_token").toString();
+			case 200: 
+				      jObj = new JSONObject(NetworkHelper.convertStreamToString(is));
+				      jObj.get("authentication_token").toString();
+				       String authentication_token =  jObj.get("authentication_token").toString();
 				       Log.d(TAG,authentication_token);
 				       Editor editor = prefs.edit();
 				       editor.putString("authentication_token", authentication_token);
 				       editor.commit();	
 				       return authentication_token;
 			
-			case 201:
-//				HttpEntity entity = httpResponse.getEntity();
-//				if (entity != null) {
-//					InputStream is = entity.getContent();
-//					String responseString = convertStreamToString(is);
-//					Editor editor = prefs.edit();
-//					if (responseString.trim().equalsIgnoreCase(
-//							"Succesfully Registered")) {
-//						
-//						editor.putBoolean("registered", true);  // Indicates that we have registered at least one time
-//						editor.putBoolean("loggedin", true);  //Indicates that user is signed in
-//						editor.putString("uairship_id", apid);
-//						editor.putString("emailId", emailIDValue);
-//						editor.putString("password", passwordValue);
-//						editor.putString("phone", phoneValue);
-//						editor.putString("gcm_regid", gcm_regid);
-//						editor.putString("firstName", firstNameValue);
-//						editor.putString("lastName", lastNameValue);
-//						editor.putString("gender",gender);
-//						editor.commit();
-//						return "You have successfully Registered";
-//
-//					} else if (responseString.trim().equalsIgnoreCase(
-//							"Registration Failed"))
-//						return "Registration Failed";
-//
-//				}
-//				break;
+			  default:
+					jObj = new JSONObject(NetworkHelper.convertStreamToString(is));
+					Log.d(TAG, jObj.toString());
+					//TODO Write error handling code here ... like checking for n/w connection.
+					break;
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -231,29 +201,7 @@ public class LoginActivity extends Activity {
 		}
 		
 	}
-	
-	
-	private static String convertStreamToString(InputStream is) {
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append((line + "\n"));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
-	}
 	
 
 	

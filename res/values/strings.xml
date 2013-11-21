@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_jaffa_main">JaffaMainActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_chat_rooms_index">ChatRoomsIndexActivity</string>
 
 </resources>

@@ -38,173 +38,101 @@ public class RegistrationActivity extends Activity {
 	static final String TAG = "locationbasedactivity";
 	public static SharedPreferences prefs;
 
-	private static EditText firstName, lastName, emailID, phone, password;
-	public static String firstNameValue, lastNameValue, emailIDValue,
-			phoneValue, apid, gcm_regid, passwordValue;
-	private static RadioButton male, female;
+	private static EditText emailID,  password;
+	public static String emailIDValue, passwordValue;
 	private static Button buttonSignup;
 	String gender;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "on created MainActivity");
-		prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-	
+		prefs = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
 
-			setContentView(R.layout.activity_registration);
-//			apid = PushManager.shared().getAPID();
-//			gcm_regid = PushManager.shared().getGcmId();
-//			firstName = (EditText) findViewById(R.id.fieldFirstName);
-//			lastName = (EditText) findViewById(R.id.fieldLastName);
-			password = (EditText) findViewById(R.id.password);
-			emailID = (EditText) findViewById(R.id.email);
-//			phone = (EditText) findViewById(R.id.fieldPhone);
-//			male = (RadioButton) findViewById(R.id.radio0);
-//			female = (RadioButton) findViewById(R.id.radio1);
-			buttonSignup = (Button) findViewById(R.id.sign_up_button);
-			buttonSignup.setOnClickListener(new View.OnClickListener() {
+		setContentView(R.layout.activity_registration);
+		password = (EditText) findViewById(R.id.password);
+		emailID = (EditText) findViewById(R.id.email);
+		buttonSignup = (Button) findViewById(R.id.sign_up_button);
+		buttonSignup.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View arg0) {
-					emailIDValue = emailID.getText().toString();
-					passwordValue = password.getText().toString();					
-					new SignUp().execute();
-				}
-			});
+			@Override
+			public void onClick(View arg0) {
+				emailIDValue = emailID.getText().toString();
+				passwordValue = password.getText().toString();
+				new SignUp().execute();
+			}
+		});
 
-		
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		Log.d(TAG, "On Paused MainActivity");
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		Log.d(TAG, "On Resumed MainActivity");
 	}
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		Log.d(TAG, "On Stopped MainActivity");
-	}
-
-	private static String convertStreamToString(InputStream is) {
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append((line + "\n"));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
 	}
 
 	public class SignUp extends AsyncTask<String, String, String> {
 
 		@Override
 		protected String doInBackground(String... arg0) {
-			// TODO Auto-generated method stub
 
-//			if (apid == null) {
-//				apid = PushManager.shared().getAPID();
-//				gcm_regid = PushManager.shared().getGcmId();
-//			}
 			HttpClient client = new DefaultHttpClient();
 			List<NameValuePair> pair = new ArrayList<NameValuePair>();
-			//pair.add(new BasicNameValuePair("uairship_id", apid));
-			//pair.add(new BasicNameValuePair("first_name", firstNameValue));
 			pair.add(new BasicNameValuePair("user[email]", emailIDValue));
-			//pair.add(new BasicNameValuePair("gcm_reg_id", gcm_regid));
-			//pair.add(new BasicNameValuePair("gender", gender));
-			//pair.add(new BasicNameValuePair("action", "registration"));
 			pair.add(new BasicNameValuePair("user[password]", passwordValue));
-			HttpPost httpPost = new HttpPost(
-					"http://10.0.2.2:3000/users.json");
+			HttpPost httpPost = new HttpPost("http://10.0.2.2:3000/users.json");
 
 			try {
 				httpPost.setEntity(new UrlEncodedFormEntity(pair));
 				HttpResponse httpResponse = null;
 				httpResponse = client.execute(httpPost);
 				int responseCode = httpResponse.getStatusLine().getStatusCode();
+				HttpEntity entity = httpResponse.getEntity();
+				InputStream is = entity.getContent();
+				JSONObject jObj;
 				switch (responseCode) {
-				
-				case 201: HttpEntity entity = httpResponse.getEntity();
-					      InputStream   is = entity.getContent();
-					      JSONObject jObj = new JSONObject(convertStreamToString(is));
-					      jObj.get("auth_token").toString();
-					       String authentication_token =  jObj.get("auth_token").toString();
-					       Log.d(TAG,authentication_token);	
-					       UserData.authentication_token = authentication_token;
-					       Log.d(TAG,authentication_token);
-					       Editor editor = prefs.edit();
-					       editor.putString("authentication_token", authentication_token);
-					       editor.commit();	
-					       break;
-				
-				case 203:
-//					HttpEntity entity = httpResponse.getEntity();
-//					if (entity != null) {
-//						InputStream is = entity.getContent();
-//						String responseString = convertStreamToString(is);
-//						Editor editor = prefs.edit();
-//						if (responseString.trim().equalsIgnoreCase(
-//								"Succesfully Registered")) {
-//							
-//							editor.putBoolean("registered", true);  // Indicates that we have registered at least one time
-//							editor.putBoolean("loggedin", true);  //Indicates that user is signed in
-//							editor.putString("uairship_id", apid);
-//							editor.putString("emailId", emailIDValue);
-//							editor.putString("password", passwordValue);
-//							editor.putString("phone", phoneValue);
-//							editor.putString("gcm_regid", gcm_regid);
-//							editor.putString("firstName", firstNameValue);
-//							editor.putString("lastName", lastNameValue);
-//							editor.putString("gender",gender);
-//							editor.commit();
-//							return "You have successfully Registered";
-//
-//						} else if (responseString.trim().equalsIgnoreCase(
-//								"Registration Failed"))
-//							return "Registration Failed";
-//
-//					}
-//					break;
+
+				case 201:
+					 jObj = new JSONObject(
+							NetworkHelper.convertStreamToString(is));
+					jObj.get("auth_token").toString();
+					String authentication_token = jObj.get("authentication_token").toString();
+					//TODO Have to extend Devises Registrations controller to return "authentication_token" ...as of now ...not returning anything I think
+					Log.d(TAG, authentication_token);
+					UserData.authentication_token = authentication_token;
+					Log.d(TAG, authentication_token);
+					Editor editor = prefs.edit();
+					editor.putString("authentication_token",authentication_token);
+					editor.commit();
+					break;
+				default:
+					jObj = new JSONObject(NetworkHelper.convertStreamToString(is));
+					Log.d(TAG, jObj.toString());
+					break;
+
 				}
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -214,15 +142,15 @@ public class RegistrationActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			Toast.makeText(RegistrationActivity.this, result, Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(RegistrationActivity.this, JaffaMainActivity.class); 
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);	
+			Toast.makeText(RegistrationActivity.this, result, Toast.LENGTH_LONG)
+					.show();
+			Intent intent = new Intent(RegistrationActivity.this,
+					JaffaMainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+					| Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 			finish();
-
-			
 
 		}
 
