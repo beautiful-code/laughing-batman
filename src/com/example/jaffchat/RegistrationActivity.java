@@ -93,7 +93,7 @@ public class RegistrationActivity extends Activity {
 			List<NameValuePair> pair = new ArrayList<NameValuePair>();
 			pair.add(new BasicNameValuePair("user[email]", emailIDValue));
 			pair.add(new BasicNameValuePair("user[password]", passwordValue));
-			HttpPost httpPost = new HttpPost("http://10.0.2.2:3000/users.json");
+			HttpPost httpPost = new HttpPost(UserData.HOST+"/users.json");
 
 			try {
 				httpPost.setEntity(new UrlEncodedFormEntity(pair));

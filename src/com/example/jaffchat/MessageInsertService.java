@@ -16,13 +16,12 @@ public class MessageInsertService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(TAG, "OnHandleIntent");
-		String emailId = intent.getStringExtra("email_id_receiver");
-		String firstName = intent.getStringExtra("first_name");
+		String email = intent.getStringExtra("email_id_receiver"); //TODO have to change this..get email of the user from message
 		String message = intent.getStringExtra("message");
-		String messageUrl = intent.getStringExtra("message_url");
+		String clipUrl = intent.getStringExtra("clipUrl");
 		long timeOfMessage = intent.getLongExtra("time_of_message", 1);
 		String direction=intent.getStringExtra("direction");
-		((MyApplication) getApplication()).chatData.insert(emailId, firstName,message,messageUrl, timeOfMessage,direction);		
+		((MyApplication) getApplication()).chatData.insert(email, message,clipUrl, timeOfMessage,direction);		
 		Log.d(TAG, "Have finished inserting data");		
 		sendBroadcast(new Intent("com.example.locationbased.action.updateui"));
 

@@ -19,10 +19,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -41,6 +45,18 @@ public class ChatRoomsIndexActivity extends Activity {
 		setContentView(R.layout.activity_chat_rooms_index);
 		listView = (ListView) findViewById(R.id.list_rooms);
 		new GetRooms().execute(null, null, null);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				Log.d(TAG, ((HashMap) parent.getItemAtPosition(position)).get("roomId").toString());
+				Intent intent = new Intent(ChatRoomsIndexActivity.this, ChatActivityNew.class);
+			    intent.putExtra("roomId", ((HashMap) parent.getItemAtPosition(position)).get("roomId").toString());   //this is the room id
+			    startActivity(intent);
+			    
+			}
+		});
 	}
 
 	@Override
@@ -70,7 +86,7 @@ public class ChatRoomsIndexActivity extends Activity {
 		protected Boolean doInBackground(String... params) {
 
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpGet httpGet = new HttpGet("http://10.0.2.2:3000/rooms.json");
+			HttpGet httpGet = new HttpGet(UserData.HOST+"/rooms.json");
 			HttpResponse httpResponse = null;
 			String response = null;
 			InputStream is;
@@ -127,7 +143,7 @@ public class ChatRoomsIndexActivity extends Activity {
 				e.printStackTrace();
 			}
 
-			return null;
+			return false;
 		}
 
 		@Override

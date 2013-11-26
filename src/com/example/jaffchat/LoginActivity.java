@@ -123,7 +123,7 @@ public class LoginActivity extends Activity {
 		values.add(new BasicNameValuePair("user[password]",params[1]));
 			
 	HttpClient httpClient =new DefaultHttpClient();
-	HttpPost httpPost = new HttpPost("http://10.0.2.2:3000/users/sign_in.json");
+	HttpPost httpPost = new HttpPost(UserData.HOST+"/users/sign_in.json");
 	HttpResponse httpResponse=null;
 	String response=null;
 	

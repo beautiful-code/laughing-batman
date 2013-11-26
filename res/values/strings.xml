@@ -7,5 +7,6 @@
     <string name="title_activity_jaffa_main">JaffaMainActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_chat_rooms_index">ChatRoomsIndexActivity</string>
+    <string name="title_activity_chat_activity_new">ChatActivityNew</string>
 
 </resources>

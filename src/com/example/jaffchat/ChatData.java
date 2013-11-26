@@ -16,12 +16,11 @@ public class ChatData {
 
 	public static final String TAG = "ChatData";
 	public static final String DB_NAME = "alldata.db";
-	public static final int DB_VERSION = 1;
+	public static final int DB_VERSION = 2;
 	public static final String TABLE_NAME = "chatdata";
-	public static final String EMAIL_ID = "email_id";
-	public static final String FIRST_NAME = "first_name";
-	public static final String MESSAGE_TEXT = "message_text";
-	public static final String MESSAGE_URL = "message_url";
+	public static final String EMAIL = "email";
+	public static final String MESSAGE = "message";
+	public static final String CLIP_URL = "message_url";
 	public static final String TIME_OF_MESSAGE = "time_of_message";
 	public static final String DIRECTION="direction";
 
@@ -34,7 +33,7 @@ public class ChatData {
 		dbHelper = new DBHelper();
 	}
 
-	public void insert(String emailId, String firstName, String messageText,String messageUrl,
+	public void insert(String emailId, String message,String clipUrl,
 			long timeOfMessage,String direction) {
 		db = dbHelper.getWritableDatabase();
 		Log.d(TAG, "On Insert");
@@ -46,11 +45,10 @@ public class ChatData {
 		Log.d(TAG, "DateTime is "+dateFormat.format(date));
 
 		ContentValues values = new ContentValues();
-		values.put(EMAIL_ID, "lnr@gmail.com");
-		values.put(FIRST_NAME, "lnr");
-		values.put(MESSAGE_TEXT, messageText);
+		values.put(EMAIL, "lnr@gmail.com");
+		values.put(MESSAGE, message);
 		values.put(TIME_OF_MESSAGE, dateFormat.format(date));
-		values.put(MESSAGE_URL, messageUrl);
+		values.put(CLIP_URL, clipUrl);
 		values.put(DIRECTION, "out");
 		db.insertWithOnConflict(TABLE_NAME, null, values,
 				SQLiteDatabase.CONFLICT_IGNORE);
@@ -62,7 +60,7 @@ return;
 	public Cursor getMessagesOfUser(String emailId)
 	{
 		db = dbHelper.getWritableDatabase();
-		String sql="Select "+MESSAGE_TEXT+", "+TIME_OF_MESSAGE+", "+DIRECTION+","+MESSAGE_URL+" from "+TABLE_NAME+" where "+EMAIL_ID+"= ?";
+		String sql="Select "+MESSAGE+", "+TIME_OF_MESSAGE+", "+DIRECTION+","+CLIP_URL+" from "+TABLE_NAME+" where "+EMAIL+"= ?";
 		String selectionArgs[]={emailId};
 	    Cursor messagesCursor=db.rawQuery(sql, selectionArgs);
         Log.d(TAG, "Number of rows in cursor is "+messagesCursor.getCount());
@@ -72,7 +70,7 @@ return;
 	public Cursor getUsers() {
 		db = dbHelper.getWritableDatabase();
 
-		String sql = "Select DISTINCT " + EMAIL_ID +" , "+FIRST_NAME+" from " + TABLE_NAME;
+		String sql = "Select DISTINCT " + EMAIL +" from " + TABLE_NAME;
 				
 		Log.d(TAG, "getUsers before query");
 		Cursor usersCursor = db.rawQuery(sql, null);
@@ -91,8 +89,8 @@ return;
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 
-			String sql = "Create TABLE " + TABLE_NAME + "(" + EMAIL_ID + " text, "
-					+ FIRST_NAME + " text ," + MESSAGE_TEXT + " text ,"+MESSAGE_URL+" text ,"
+			String sql = "Create TABLE " + TABLE_NAME + "(" + EMAIL + " text, "
+					 + MESSAGE + " text ,"+CLIP_URL+" text ,"
 					+ TIME_OF_MESSAGE + " DATETIME ,"+DIRECTION+" text)";
 			Log.d(TAG, "Sql is "+sql);
 			db.execSQL(sql);

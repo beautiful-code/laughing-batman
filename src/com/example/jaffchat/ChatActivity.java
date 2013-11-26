@@ -100,12 +100,10 @@ public class ChatActivity extends Activity {
 				intent.putExtra("time_of_message",
 						NetworkHelper.getCurrentTimeStamp());
 				intent.putExtra("direction", "out");
-				intent.putExtra("first_name", "lnr");
-				intent.putExtra("action", "inviteforride");
 				sendBroadcast(intent);
 			}
 		});
-		new GetMessages().execute("lnr@gmail.com", "lnr");
+		new GetMessages().execute();
 
 	}
 
@@ -117,7 +115,7 @@ public class ChatActivity extends Activity {
 			map = new HashMap();
 			Log.d(TAG, "Converting cursor to list");
 			map.put("message", messagesCursor.getString(0));
-			map.put("message_url", messagesCursor.getString(messagesCursor.getColumnIndex(ChatData.MESSAGE_URL)));
+			map.put("message_url", messagesCursor.getString(messagesCursor.getColumnIndex(ChatData.CLIP_URL)));
 			map.put("time", messagesCursor.getString(messagesCursor
 					.getColumnIndex(ChatData.TIME_OF_MESSAGE)));
 			map.put("directtion", messagesCursor.getString(messagesCursor

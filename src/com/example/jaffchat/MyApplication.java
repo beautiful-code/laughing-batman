@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 
 public class MyApplication extends Application {
 
-	SharedPreferences prefs;
+	public static SharedPreferences prefs;
 	ChatData chatData;
 
 	@Override
@@ -20,7 +20,16 @@ public class MyApplication extends Application {
 		super.onCreate();
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		chatData=new ChatData(this);
-		
-
 	}
+	
+	
+	public static String authentication_token() {
+		return prefs.getString("authentication_token", null);
+	}
+	
+	public static SharedPreferences getPrefs()
+	{
+		return prefs;
+	}
+	
 }
