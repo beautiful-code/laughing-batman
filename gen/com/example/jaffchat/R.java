@@ -29,20 +29,24 @@ public final class R {
     }
     public static final class drawable {
         public static final int bluebg=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int image_button=0x7f020002;
-        public static final int send_button=0x7f020003;
-        public static final int thinking=0x7f020004;
+        public static final int even=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int image_button=0x7f020003;
+        public static final int odd=0x7f020004;
+        public static final int send_button=0x7f020005;
+        public static final int thinking=0x7f020006;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f090018;
-        public static final int action_logout=0x7f090016;
-        public static final int action_rooms=0x7f090017;
-        public static final int action_settings=0x7f090015;
+        public static final int action_forgot_password=0x7f09001b;
+        public static final int action_logout=0x7f090019;
+        public static final int action_rooms=0x7f09001a;
+        public static final int action_settings=0x7f090018;
         public static final int buttonSend=0x7f090002;
         public static final int chat_message=0x7f090011;
         public static final int email=0x7f09000a;
         public static final int emailIdInbox=0x7f090010;
+        public static final int even_bubble=0x7f090015;
+        public static final int even_container=0x7f090014;
         public static final int getImagesButton=0x7f090004;
         public static final int list_messages=0x7f090000;
         public static final int list_rooms=0x7f090006;
@@ -53,7 +57,8 @@ public final class R {
         public static final int message=0x7f090001;
         public static final int new_user=0x7f09000e;
         public static final int password=0x7f09000b;
-        public static final int room_id=0x7f090014;
+        public static final int room_id=0x7f090017;
+        public static final int room_name=0x7f090016;
         public static final int sign_in_button=0x7f09000d;
         public static final int sign_up_button=0x7f09000f;
         public static final int time_of_chat_message=0x7f090013;
@@ -70,8 +75,8 @@ public final class R {
         public static final int activity_registration=0x7f030005;
         public static final int row_inbox=0x7f030006;
         public static final int row_message=0x7f030007;
-        public static final int row_message_new=0x7f030008;
-        public static final int row_message_new_even=0x7f030009;
+        public static final int row_message_other=0x7f030008;
+        public static final int row_message_self=0x7f030009;
         public static final int row_room=0x7f03000a;
     }
     public static final class menu {

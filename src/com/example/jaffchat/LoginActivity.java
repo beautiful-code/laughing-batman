@@ -144,10 +144,13 @@ public class LoginActivity extends Activity {
 				      jObj = new JSONObject(NetworkHelper.convertStreamToString(is));
 				      jObj.get("authentication_token").toString();
 				       String authentication_token =  jObj.get("authentication_token").toString();
+				       String email = jObj.get("email").toString();
 				       Log.d(TAG,authentication_token);
 				       Editor editor = prefs.edit();
 				       editor.putString("authentication_token", authentication_token);
+				       editor.putString("email", email);
 				       editor.commit();	
+				       UserData.email = email;
 				       return authentication_token;
 			
 			  default:

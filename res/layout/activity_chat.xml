@@ -13,7 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/dark"
+        android:background="@color/green"
         android:scrollbars="vertical"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll" >
@@ -48,8 +48,8 @@
             style="?android:attr/buttonStyleSmall"
             android:background="@drawable/send_button"    
             
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
              />

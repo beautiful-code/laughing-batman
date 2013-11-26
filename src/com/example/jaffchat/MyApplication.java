@@ -27,6 +27,11 @@ public class MyApplication extends Application {
 		return prefs.getString("authentication_token", null);
 	}
 	
+	
+	public static String email() {
+		return prefs.getString("email", null);
+	}
+	
 	public static SharedPreferences getPrefs()
 	{
 		return prefs;

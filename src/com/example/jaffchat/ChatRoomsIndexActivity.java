@@ -35,8 +35,8 @@ public class ChatRoomsIndexActivity extends Activity {
 	static String TAG = "ChatRoomActivity";
 	static List<Map> list = new ArrayList<Map>();
 	SimpleAdapter adapter;
-	String[] from = { "roomId" };
-	int[] to = { R.id.room_id };
+	String[] from = { "roomId","name" };
+	int[] to = { R.id.room_id,R.id.room_name };
 	ListView listView;
 
 	@Override
@@ -72,11 +72,12 @@ public class ChatRoomsIndexActivity extends Activity {
 		return list;
 	}
 
-	public static Map<String, String> createRoomMap(String roomId) {
+	public static Map<String, String> createRoomMap(String roomId,String name) {
 		Map map;
 		map = new HashMap();
 		Log.d(TAG, "Converting JSOn to map");
 		map.put("roomId", roomId);
+		map.put("name", name);
 		return map;
 	}
 
@@ -109,8 +110,9 @@ public class ChatRoomsIndexActivity extends Activity {
 					for (int i = 0; i < roomsArray.length(); i++) {
 						JSONObject c = roomsArray.getJSONObject(i);
 						String roomId = c.getString("id");
+						String name = c.getString("name");
 						Log.d(TAG, "Room Id is " + roomId);						
-						ChatRoomsIndexActivity.addToList(ChatRoomsIndexActivity.createRoomMap(roomId));
+						ChatRoomsIndexActivity.addToList(ChatRoomsIndexActivity.createRoomMap(roomId,name));
 					}
 					Log.d(TAG, list.toString());					
 					adapter = new SimpleAdapter(ChatRoomsIndexActivity.this, (List<? extends Map<String, ?>>) list, R.layout.row_room, from, to);
