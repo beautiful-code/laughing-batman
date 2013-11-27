@@ -5,18 +5,22 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class CustomAdapterNew extends ArrayAdapter<Map> {
 	private List<Map> entries;
 	private Activity activity;
+	private Map map;
+	final float scale = getContext().getResources().getDisplayMetrics().density;
+
 
 	public CustomAdapterNew(Activity a, int textViewResourceId,
 			List<Map> entries) {
@@ -45,7 +49,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 
 	@Override
 	public int getItemViewType(int position) {
-		Map map = entries.get(position);
+		 map = entries.get(position);
 		if (map.get("email").toString().equals(MyApplication.email())) {
 			Log.d("custom_adapter", "It is my message"
 					+ map.get("message").toString());
@@ -58,6 +62,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		 map = entries.get(position);
 
 		int viewType = this.getItemViewType(position);
 		ViewHolder holder = null;
@@ -80,6 +85,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				holder.message = (TextView) v.findViewById(R.id.chat_message);
 				// holder.email = (TextView) v.findViewById(R.id.email);
 				holder.gif = (WebView) v.findViewById(R.id.webview);
+				
 				v.setTag(holder);
 			} else {
 				holder = (ViewHolder) v.getTag();
@@ -89,15 +95,21 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				holder.message.setText(map.get("message").toString());
 				String url = "http://www.google.com";
 				String full_url = "";
-				if (map.get("clipUrl") == null) { // holder.gif.setVisibility(4);
+				if (map.get("clipUrl") == null) { 
+					//
 				} else {
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
 					holder.gif.loadUrl(full_url);
-					holder.gif.setBackgroundColor(Color.parseColor("#E6E6E6"));
+					//holder.gif.setBackgroundColor(Color.parseColor("#E6E6E6"));
 					Log.d("custom_adapter", "Have loaded gif");
 				}
-			}
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.gif.getLayoutParams(); 
+				 params.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);
+   
+				 params.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f);   
+				 holder.gif.setLayoutParams(params);
+				}
 
 			return v;
 		case 1:
@@ -125,10 +137,14 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				} else {
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
-					holder1.gif.setBackgroundColor(Color.parseColor("#3385D6"));
+					//holder1.gif.setBackgroundColor(Color.parseColor("#3385D6"));
 					holder1.gif.loadUrl(full_url);					
 					Log.d("custom_adapter", "Have loaded gif");
 				}
+				RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) holder1.gif.getLayoutParams(); 
+				 params1.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);				   
+				 params1.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f);   
+				 holder1.gif.setLayoutParams(params1);
 			}
 			
 			

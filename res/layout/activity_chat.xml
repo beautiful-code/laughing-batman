@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:background="@color/green"
         android:divider="@null"
-        android:dividerHeight="0dp"
+        android:dividerHeight="12dp"
         android:scrollbars="vertical"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll" >
