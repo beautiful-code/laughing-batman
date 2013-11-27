@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				Log.d("custom_adapter", "Case is 0");
 				LayoutInflater vi = (LayoutInflater) activity
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.row_message_self, null);
+				v = vi.inflate(R.layout.row_message_self, parent,false);
 				Log.d("custom_adapter", "Other message");
 				holder = new ViewHolder();
 				holder.message = (TextView) v.findViewById(R.id.chat_message);
@@ -93,6 +94,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
 					holder.gif.loadUrl(full_url);
+					holder.gif.setBackgroundColor(Color.parseColor("#E6E6E6"));
 					Log.d("custom_adapter", "Have loaded gif");
 				}
 			}
@@ -103,7 +105,7 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				Log.d("custom_adapter", "Case is 1");
 				LayoutInflater vi = (LayoutInflater) activity
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.row_message_other, null);
+				v = vi.inflate(R.layout.row_message_other, parent,false);
 				Log.d("custom_adapter", "My message");
 				holder1 = new ViewHolder1();
 				holder1.message = (TextView) v.findViewById(R.id.chat_message);
@@ -123,7 +125,8 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				} else {
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
-					holder1.gif.loadUrl(full_url);
+					holder1.gif.setBackgroundColor(Color.parseColor("#3385D6"));
+					holder1.gif.loadUrl(full_url);					
 					Log.d("custom_adapter", "Have loaded gif");
 				}
 			}

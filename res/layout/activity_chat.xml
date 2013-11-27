@@ -14,28 +14,27 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/green"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:scrollbars="vertical"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll" >
-
     </ListView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.40"
-        android:background="@color/green"
-        
-         >
+        android:background="@color/green" >
 
         <EditText
             android:id="@+id/message"
             android:layout_width="match_parent"
-            android:background="@color/green"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/buttonSend"
             android:layout_weight="0.2"
+            android:background="@color/green"
             android:ems="10"
             android:hint="Enter Text.."
             android:inputType="textMultiLine" >
@@ -46,42 +45,41 @@
         <Button
             android:id="@+id/buttonSend"
             style="?android:attr/buttonStyleSmall"
-            android:background="@drawable/send_button"    
-            
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-             />
+            android:background="#000A1F"
+            android:text="Send"
+            android:textColor="#FFFFFF" />
 
-	<WebView
-	    android:id="@+id/webView1"
-	    android:layout_width="190dp"
-	    android:layout_height="130dp"
-	    android:layout_above="@+id/getImagesButton"
-	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentTop="true" />
+        <WebView
+            android:id="@+id/webView1"
+            android:layout_width="190dp"
+            android:layout_height="130dp"
+            android:layout_above="@+id/getImagesButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
 
-	<WebView
-	    android:id="@+id/webView2"
-	    android:layout_width="190dp"
-	    android:layout_height="130dp"
-	    android:layout_alignBottom="@+id/webView1"
-	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true"
-	    android:text="TextView" />
+        <WebView
+            android:id="@+id/webView2"
+            android:layout_width="190dp"
+            android:layout_height="130dp"
+            android:layout_alignBottom="@+id/webView1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="TextView" />
 
-	<Button
-	    android:id="@+id/getImagesButton"
-	    android:background="@drawable/image_button"    
-	    
-	    style="?android:attr/buttonStyleSmall"
-	    android:layout_width="35dp"
-	    android:layout_height="35dp"
-	    android:layout_above="@+id/buttonSend"
-	    android:layout_alignParentRight="true"
-	    android:text="i" />
-
+        <Button
+            android:id="@+id/getImagesButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_above="@+id/buttonSend"
+            android:layout_alignParentRight="true"
+            android:background="#000A1F"
+            android:text="i"
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 
 </LinearLayout>
