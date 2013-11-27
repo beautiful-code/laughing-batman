@@ -129,23 +129,23 @@ public class ChatActivityNew extends Activity {
 		registerReceiver(imagesReceiver, imagesFilter);
 		w1.setVisibility(4);
 		w2.setVisibility(4);
-		// //Hiding the image views
-		// RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)
-		// w1.getLayoutParams(); //190 , 130 width,height
-		// RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)
-		// w1.getLayoutParams(); //190 , 130 width,height
-		// LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams)
-		// listView.getLayoutParams(); //190 , 130 width,height
-		//
-		// params1.height = 1;
-		// params2.height = 1;
-		// params1.width = 1;
-		// params2.width = 1;
-		// params3.height=600;
-		//
-		// w1.setLayoutParams(params1);
-		// w2.setLayoutParams(params2);
-		// listView.setLayoutParams(params3);
+//		 //Hiding the image views
+//		 RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)
+//		 w1.getLayoutParams(); //190 , 130 width,height
+//		 RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)
+//		 w1.getLayoutParams(); //190 , 130 width,height
+//		 LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams)
+//		 listView.getLayoutParams(); //190 , 130 width,height
+//		
+//		 params1.height = 1;
+//		 params2.height = 1;
+//		 params1.width = 1;
+//		 params2.width = 1;
+//		 params3.height=600;
+//		
+//		 w1.setLayoutParams(params1);
+//		 w2.setLayoutParams(params2);
+//		 listView.setLayoutParams(params3);
 	}
 
 	@Override

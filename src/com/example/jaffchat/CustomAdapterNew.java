@@ -67,7 +67,6 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 		int viewType = this.getItemViewType(position);
 		ViewHolder holder = null;
 		ViewHolder1 holder1 = null;
-		Map map = entries.get(position);
 		View v = convertView;
 
 
@@ -95,19 +94,22 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				holder.message.setText(map.get("message").toString());
 				String url = "http://www.google.com";
 				String full_url = "";
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.gif.getLayoutParams(); 
+
 				if (map.get("clipUrl") == null) { 
+					params.height = 1;
+					params.width = 1;
 					//
 				} else {
+					 params.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);					   
+					 params.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f); 
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
 					holder.gif.loadUrl(full_url);
 					//holder.gif.setBackgroundColor(Color.parseColor("#E6E6E6"));
 					Log.d("custom_adapter", "Have loaded gif");
 				}
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.gif.getLayoutParams(); 
-				 params.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);
-   
-				 params.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f);   
+  
 				 holder.gif.setLayoutParams(params);
 				}
 
@@ -133,17 +135,21 @@ public class CustomAdapterNew extends ArrayAdapter<Map> {
 				holder1.message.setText(map.get("message").toString());
 				String url = "http://www.google.com";
 				String full_url = "";
+				RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) holder1.gif.getLayoutParams(); 
+
 				if (map.get("clipUrl") == null) { // holder.gif.setVisibility(4);
+					params1.height=1;
+					params1.width=1;
 				} else {
+					 params1.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);				   
+					 params1.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f); 
 					url = map.get("clipUrl").toString();
 					full_url = UserData.HOST + url;
 					//holder1.gif.setBackgroundColor(Color.parseColor("#3385D6"));
 					holder1.gif.loadUrl(full_url);					
 					Log.d("custom_adapter", "Have loaded gif");
 				}
-				RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) holder1.gif.getLayoutParams(); 
-				 params1.height = (int) (Integer.parseInt(map.get("height").toString()) * scale + 0.5f);				   
-				 params1.width =   (int) (Integer.parseInt(map.get("width").toString()) * scale + 0.5f);   
+  
 				 holder1.gif.setLayoutParams(params1);
 			}
 			

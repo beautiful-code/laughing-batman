@@ -4,9 +4,9 @@
 android:layout_height="wrap_content" >
     <item>
         <shape android:shape="rectangle" >
-            <corners android:radius="7dip" />
-            <solid android:color="#3385D6" />
-            <stroke android:width="2dp" android:color="#3385D6"/>
+            <corners android:radius="10dip" />
+            <solid android:color="#f2fee9" />
+            <stroke android:width="2dp" android:color="#f2fee9"/>
         </shape>
     </item>
 </layer-list>
