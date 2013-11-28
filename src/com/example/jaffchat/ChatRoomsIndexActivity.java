@@ -33,7 +33,7 @@ import android.widget.SimpleAdapter;
 public class ChatRoomsIndexActivity extends Activity {
 
 	static String TAG = "ChatRoomActivity";
-	static List<Map> list = new ArrayList<Map>();
+	static List<Map> list;
 	SimpleAdapter adapter;
 	String[] from = { "roomId","name" };
 	int[] to = { R.id.room_id,R.id.room_name };
@@ -43,6 +43,7 @@ public class ChatRoomsIndexActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_chat_rooms_index);
+		list = new ArrayList<Map>();
 		listView = (ListView) findViewById(R.id.list_rooms);
 		new GetRooms().execute(null, null, null);
 		listView.setOnItemClickListener(new OnItemClickListener() {
