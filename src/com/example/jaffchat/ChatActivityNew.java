@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,12 +32,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 public class ChatActivityNew extends Activity {
 
@@ -44,6 +44,7 @@ public class ChatActivityNew extends Activity {
 	Button sendMessage;
 	Button getImages;
 	String clipId;
+	Boolean isRunning = true;
 	WebView w1, w2;
 	EditText message;
 	static List<Map> list = new ArrayList<Map>();
@@ -52,16 +53,18 @@ public class ChatActivityNew extends Activity {
 	String[] from = { "message", "message_url", "time" };
 	int[] to = { R.id.chat_message, R.id.time_of_chat_message, R.id.webview };
 	ListView listView;
+
 	static String ACTION_SEND_MESSAGE = "com.example.locationbased.action.sendmessage"; // intent
-																						// action
-	String roomId; // when
+																						// action//
+																						// when
 	// message
 	// is
 	// sent
 	// by
 	// user
+	String roomId;
 
-	Map lastMessage;
+	Map lastMessage;   // hold latest message..need its timestamp to ping server for newer mesages
 	String timeOfMostRecentMessage;
 	IntentFilter notificationFilter = new IntentFilter(
 			"com.example.locationbased.action.updateui");
@@ -105,6 +108,15 @@ public class ChatActivityNew extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "received broadcast for images");
 			WebView[] views = { w1, w2 };
+			Log.d(TAG, "Images list size is "+imagesList.size());
+			if(imagesList.size()==0)
+			{	Log.d(TAG, "Images list size is "+imagesList.size());
+			Log.d(TAG, "I am settiung the visibiltity to 0 bitches");
+				
+				w1.setVisibility(4);
+			       w2.setVisibility(4);
+			}
+					
 
 			for (int i = 0; i < Math.min(imagesList.size(), 2); i++) {
 				Map map = imagesList.get(i);
@@ -120,32 +132,37 @@ public class ChatActivityNew extends Activity {
 	protected void onPause() {
 		super.onPause();
 		unregisterReceiver(imagesReceiver);
+		isRunning = false;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE); 
 
+inputManager.hideSoftInputFromWindow(message.getWindowToken(),
+                   InputMethodManager.HIDE_NOT_ALWAYS);
 		registerReceiver(imagesReceiver, imagesFilter);
 		w1.setVisibility(4);
 		w2.setVisibility(4);
-//		 //Hiding the image views
-//		 RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)
-//		 w1.getLayoutParams(); //190 , 130 width,height
-//		 RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)
-//		 w1.getLayoutParams(); //190 , 130 width,height
-//		 LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams)
-//		 listView.getLayoutParams(); //190 , 130 width,height
-//		
-//		 params1.height = 1;
-//		 params2.height = 1;
-//		 params1.width = 1;
-//		 params2.width = 1;
-//		 params3.height=600;
-//		
-//		 w1.setLayoutParams(params1);
-//		 w2.setLayoutParams(params2);
-//		 listView.setLayoutParams(params3);
+		// //Hiding the image views
+		// RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams)
+		// w1.getLayoutParams(); //190 , 130 width,height
+		// RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams)
+		// w1.getLayoutParams(); //190 , 130 width,height
+		// LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams)
+		// listView.getLayoutParams(); //190 , 130 width,height
+		//
+		// params1.height = 1;
+		// params2.height = 1;
+		// params1.width = 1;
+		// params2.width = 1;
+		// params3.height=600;
+		//
+		// w1.setLayoutParams(params1);
+		// w2.setLayoutParams(params2);
+		// listView.setLayoutParams(params3);
 	}
 
 	@Override
@@ -164,7 +181,7 @@ public class ChatActivityNew extends Activity {
 		getImages = (Button) findViewById(R.id.getImagesButton);
 		message = (EditText) findViewById(R.id.message);
 		listView = (ListView) findViewById(R.id.list_messages);
-		notificationFilter.addAction(ChatActivity.ACTION_SEND_MESSAGE);
+		notificationFilter.addAction(ChatActivityNew.ACTION_SEND_MESSAGE);
 		notificationFilter.setPriority(1);
 		w1 = (WebView) findViewById(R.id.webView1);
 		w2 = (WebView) findViewById(R.id.webView2);
@@ -214,6 +231,8 @@ public class ChatActivityNew extends Activity {
 																		// service.
 				intent.putExtra("message", messageValue);
 				startService(intent);
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(message.getWindowToken(), 0);
 
 				w1.setVisibility(0);
 				w2.setVisibility(0);
@@ -245,14 +264,19 @@ public class ChatActivityNew extends Activity {
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "OnButtonClicked");
+				InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE); 
+
+inputManager.hideSoftInputFromWindow(message.getWindowToken(),
+                           InputMethodManager.HIDE_NOT_ALWAYS);
 
 				w1.loadUrl("about:blank");
 				w2.loadUrl("about:blank");
-				w2.setVisibility(0);
+				w1.setBackgroundColor(Color.parseColor("#e3dacf"));
 				w1.setVisibility(4);
-
 				w2.setVisibility(4);
 				String messageValue = message.getText().toString();
+				message.setText("");
 				Intent intent = new Intent(
 						"com.example.locationbased.action.postmessage"); // I
 																			// added
@@ -319,7 +343,7 @@ public class ChatActivityNew extends Activity {
 				intent.putExtra("clipId", clipId);
 
 				intent.putExtra("direction", "out");
-				clipId = null; //clear clipId after message sent
+				clipId = null; // clear clipId after message sent
 				startService(intent);
 			}
 		});
@@ -395,6 +419,12 @@ public class ChatActivityNew extends Activity {
 
 		@Override
 		protected Boolean doInBackground(String... params) {
+			
+			if(!isRunning){
+				cancel(true);
+			}
+			
+			
 			String authentication_token = MyApplication.prefs.getString(
 					"authentication_token", null);
 			Log.d(TAG, roomId);
@@ -524,11 +554,10 @@ public class ChatActivityNew extends Activity {
 
 					public void run() {
 						listView.setSelection(adapter.getCount() - 1);
-						// listView.smoothScrollToPosition(listView.getCount());
 
 					}
 
-				}, 1700);
+				}, 1600);
 
 			}
 

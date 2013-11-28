@@ -74,13 +74,14 @@
         <Button
             android:id="@+id/getImagesButton"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="35dp"
-            android:layout_height="25dp"
-            android:layout_above="@+id/buttonSend"
-            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/buttonSend"
             android:background="#000A1F"
             android:text="i"
             android:textColor="#FFFFFF" />
+
     </RelativeLayout>
 
 </LinearLayout>
