@@ -27,11 +27,16 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -64,12 +69,16 @@ public class ChatActivityNew extends Activity {
 	// user
 	String roomId;
 
-	Map lastMessage;   // hold latest message..need its timestamp to ping server for newer mesages
+	Map lastMessage; // hold latest message..need its timestamp to ping server
+						// for newer mesages
 	String timeOfMostRecentMessage;
 	IntentFilter notificationFilter = new IntentFilter(
 			"com.example.locationbased.action.updateui");
 	IntentFilter imagesFilter = new IntentFilter(
 			"com.example.locationbased.action.showimages");
+	IntentFilter imagesCountFilter = new IntentFilter(
+			"com.example.locationbased.action.showimagescount");
+
 
 	IntentFilter initializationFilter = new IntentFilter(
 			"com.example.locationbased.action.initializeui");
@@ -108,15 +117,14 @@ public class ChatActivityNew extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "received broadcast for images");
 			WebView[] views = { w1, w2 };
-			Log.d(TAG, "Images list size is "+imagesList.size());
-			if(imagesList.size()==0)
-			{	Log.d(TAG, "Images list size is "+imagesList.size());
-			Log.d(TAG, "I am settiung the visibiltity to 0 bitches");
-				
+			Log.d(TAG, "Images list size is " + imagesList.size());
+			if (imagesList.size() == 0) {
+				Log.d(TAG, "Images list size is " + imagesList.size());
+				Log.d(TAG, "I am settiung the visibiltity to 0 bitches");
+
 				w1.setVisibility(4);
-			       w2.setVisibility(4);
+				w2.setVisibility(4);
 			}
-					
 
 			for (int i = 0; i < Math.min(imagesList.size(), 2); i++) {
 				Map map = imagesList.get(i);
@@ -127,23 +135,42 @@ public class ChatActivityNew extends Activity {
 
 		}
 	};
+	
+	
+	//com.example.locationbased.action.showimagescount
+	
+	BroadcastReceiver imagesCountReceiver = new BroadcastReceiver() {
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "received broadcast for images count");
+			Log.d(TAG, "Images list size is " + imagesList.size());
+			getImages.setText(""+imagesList.size());
+			  Animation mAnimation = new AlphaAnimation(1, 0);
+			    mAnimation.setDuration(200);
+			    mAnimation.setInterpolator(new LinearInterpolator());
+			    mAnimation.setRepeatCount(Animation.INFINITE);
+			    mAnimation.setRepeatMode(Animation.REVERSE); 
+			    getImages.startAnimation(mAnimation);
+
+		}
+	};
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		unregisterReceiver(imagesReceiver);
+		unregisterReceiver(imagesCountReceiver);
 		isRunning = false;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE); 
+		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-inputManager.hideSoftInputFromWindow(message.getWindowToken(),
-                   InputMethodManager.HIDE_NOT_ALWAYS);
+		inputManager.hideSoftInputFromWindow(message.getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
 		registerReceiver(imagesReceiver, imagesFilter);
+		registerReceiver(imagesCountReceiver, imagesCountFilter);
 		w1.setVisibility(4);
 		w2.setVisibility(4);
 		// //Hiding the image views
@@ -199,6 +226,8 @@ inputManager.hideSoftInputFromWindow(message.getWindowToken(),
 			public void onClick(View v) {
 
 				Log.d(TAG, "OnButtonClicked");
+	            getImages.clearAnimation();
+
 				String messageValue = message.getText().toString();
 				Intent intent = new Intent(
 						"com.example.locationbased.action.getimages"); // I
@@ -230,6 +259,7 @@ inputManager.hideSoftInputFromWindow(message.getWindowToken(),
 																		// separate
 																		// service.
 				intent.putExtra("message", messageValue);
+				intent.putExtra("source", "show_images");
 				startService(intent);
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(message.getWindowToken(), 0);
@@ -264,11 +294,12 @@ inputManager.hideSoftInputFromWindow(message.getWindowToken(),
 			@Override
 			public void onClick(View v) {
 				Log.d(TAG, "OnButtonClicked");
-				InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE); 
+				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-inputManager.hideSoftInputFromWindow(message.getWindowToken(),
-                           InputMethodManager.HIDE_NOT_ALWAYS);
+				inputManager.hideSoftInputFromWindow(message.getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+	            getImages.clearAnimation();
+
 
 				w1.loadUrl("about:blank");
 				w2.loadUrl("about:blank");
@@ -370,6 +401,36 @@ inputManager.hideSoftInputFromWindow(message.getWindowToken(),
 			}
 		});
 
+		TextWatcher messageWatcher = new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if (filterLongEnough()) {
+
+					String messageValue = message.getText().toString();
+					Intent intent = new Intent(
+							"com.example.locationbased.action.getimages");
+					intent.putExtra("source", "image_polling");
+					intent.putExtra("message", messageValue);
+					startService(intent);
+				}
+			}
+
+			private boolean filterLongEnough() {
+				return message.getText().toString().trim().length() > 2;
+			}
+		};
+		message.addTextChangedListener(messageWatcher);
+
 	}
 
 	public static List<Map> addToList(Map map) {
@@ -419,12 +480,11 @@ inputManager.hideSoftInputFromWindow(message.getWindowToken(),
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			
-			if(!isRunning){
+
+			if (!isRunning) {
 				cancel(true);
 			}
-			
-			
+
 			String authentication_token = MyApplication.prefs.getString(
 					"authentication_token", null);
 			Log.d(TAG, roomId);
